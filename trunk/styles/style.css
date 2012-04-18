@@ -1,0 +1,71 @@
+BODY, TABLE {
+	font-family: Verdana;
+	font-size: 12px;
+}
+UL {
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0px;
+}
+TH {
+	font-family: Verdana;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #28288F;
+	color: white;
+}
+SELECT {
+	font-family: Verdana;
+	font-size: 11px;
+}
+.numeric {
+	text-align: right;
+}
+.tablescroll {
+    font: 12px normal Verdana, Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+ 
+.tablescroll td,
+.tablescroll_wrapper,
+.tablescroll_head,
+.tablescroll_foot {
+    border:1px solid #ccc;
+}
+ 
+.tablescroll td {
+    padding:3px 5px;
+    border-bottom:0;
+    border-right:0;
+}
+ 
+.tablescroll_wrapper {
+    background-color:#fff;
+    border-left:0;
+}
+ 
+.tablescroll_head,
+.tablescroll_foot {
+    background-color:#eee;
+    border-left:0;
+    border-top:0;
+    font-size:11px;
+    font-weight:bold;
+}
+ 
+.tablescroll_head {
+    margin-bottom:3px;
+}
+ 
+.tablescroll_foot {
+    margin-top:3px;
+}
+ 
+.tablescroll tbody tr.first td {
+    border-top:0;
+}
+#visualization {
+	width:800px;
+}
+#castingTable .alt {
+	background-color: #F5F5FF;
+}
