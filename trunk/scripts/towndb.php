@@ -38536,7 +38536,7 @@ $townDict = array(
 			2828049 => "Youngs Cove",
 			2827646 => "Zealand",
 			2827702 => "Zionville"),
-	'Newoundland and Labrador' => array(2817105 => "Arnold's Cove",
+	'Newfoundland and Labrador' => array(2817105 => "Arnold's Cove",
 			2817124 => "Bay Roberts",
 			2817142 => "Bishop's Falls",
 			2817154 => "Bonavista",
@@ -41609,5 +41609,5 @@ $townDict = array(
 			2836867 => "Zenon Park"),
 	'Yukon' => array(2817525 => "Mayo",
 		2817918 => "Whitehorse")
-);
+));
 ?>
