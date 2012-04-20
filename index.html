@@ -32,6 +32,10 @@
 		<table>
 			<tr>
 				<td>
+					<select name="country" onchange="loadVisualization(0)">
+						<option value="Canada">Canada</option>
+						<option value="United States" selected>United State</option>
+					</select>
 					<fieldset><legend>Included states</legend>
 						<select multiple name="states[]" id="stateSelector" size=12>
 							<option value=0 selected>Include All</option>
