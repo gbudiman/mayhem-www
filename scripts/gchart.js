@@ -1,6 +1,6 @@
 function loadVisualization(init) {
 	var options = {
-		region: 'US',
+		region: $('country option:selected').val(),
 		displayMode: 'markers',
 		resolution: 'provinces',
 		enableRegionInteractivity: true,
