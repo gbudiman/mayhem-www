@@ -26,7 +26,6 @@
 	foreach ($db->query($sql) as $row) {
 		$date = '"' .$row['Runtime'] .'"';
 	}
-
 	if (!in_array("0", $_POST['states'])) {
 		$statePlaceholder = rtrim(str_repeat('?, ', count($_POST['states'])), ', ');
 	}
@@ -52,6 +51,7 @@
 	$query = "SELECT
 					Caster.Town AS Town
 					, Caster.State AS State
+					, Caster.Country AS Country
 					, COUNT(*) AS count
 				FROM Caster INNER JOIN Seek ON Caster.ID = Seek.ID
 				WHERE Seek.Seeking = ?
@@ -61,12 +61,12 @@
 	if ($_POST['compensation'] !== '0') {
 		$query .= " AND Caster.Compensation = ? \n";
 	}
-	$query .= " AND Caster.Country IN ? \n";
+	$query .= " AND Caster.Country = ? \n";
 	if (!in_array("0", $_POST['states'])) {
 		$query .= " AND Caster.State IN ($statePlaceholder)\n";
 	}
-	$query .= " GROUP BY Caster.Town, Caster.State
-				ORDER BY 3 DESC";
+	$query .= " GROUP BY Caster.Town, Caster.State, Caster.Country
+				ORDER BY count DESC";
 
 	// Load values to prepared statement
 	$executeArray = array($_POST['seeking']);
@@ -77,7 +77,7 @@
 	if ($_POST['compensation'] !== '0') {
 		array_push($executeArray, $_POST['compensation']);
 	}
-	array_push($_POST['country']);
+	array_push($executeArray, $countryDict[$_POST['country']]);
 	if (!in_array("0", $_POST['states'])) {
 		foreach ($_POST['states'] as $s) {
 			array_push($executeArray, $s);
@@ -115,9 +115,9 @@
 				.'fm_action=Search'
 				.'&search_type=casting for'
 				.'&m_search_type[]=' .$_POST['seeking']
-				.'&cc_country=' .array_search($row['Country'], $countryDict)
-				.'&cc_state=' .array_search($row['State'], $stateDict)
-				.'&cc_city=' .array_search($row['Town'], $townDict[$row['Country'][$row['State']]])
+				.'&cc_country=' .$_POST['country']
+				.'&cc_state=' .array_search($row['State'], $stateDict[$_POST['country']])
+				.'&cc_city=' .array_search($row['Town'], $townDict[$_POST['country']][$row['State']])
 				.'&search_mile_range=0.05'
 				.'&fm_button=+'
 				.'&search_start_date='
