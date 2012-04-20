@@ -1,5 +1,11 @@
 <?php
+$countryDict = array(
+	'CA' => 'Canada'
+	, 'US' => 'United States'
+);
+
 $stateDict = array(
+'US' => array(
 	4078 => "Alabama",
 	4079 => "Alaska",
 	4080 => "Arizona",
@@ -54,9 +60,11 @@ $stateDict = array(
 	8056 => "Washington Dc",
 	4129 => "West Virginia",
 	4130 => "Wisconsin",
-	4131 => "Wyoming"
+	4131 => "Wyoming")
 );
+
 $townDict = array(
+'US' => array(
 	"Alabama" => array(2845681 => "Abbeville",
 						2832324 => "ABERNANT",
 						2734106 => "Adamsville",
@@ -36445,5 +36453,5 @@ $townDict = array(
 						2830000 => "YELLOWSTONE NATIONAL PARK",
 						2761309 => "Yoder",
 						2761382 => "Y-O Ranch")
-);
+));
 ?>

@@ -1,6 +1,9 @@
 function loadVisualization(init) {
+	if (init == 0) {
+		loadStates();
+	}
 	var options = {
-		region: $('country option:selected').val(),
+		region: $('#country option:selected').val(),
 		displayMode: 'markers',
 		resolution: 'provinces',
 		enableRegionInteractivity: true,
@@ -17,7 +20,11 @@ function loadVisualization(init) {
 		var jsonRequest = $.ajax({
 			type: "POST",
 			url: "./scripts/populate.php",
-			data: $("#cquery").serialize(),
+			data: { 'seeking' : $("#seeking").val()
+					, 'country' : $("#country").val()
+					, 'states' : $("#stateSelector").val()
+					, 'nudity' : $("input[name='nudity']:checked").val()
+					, 'compensation' : $("input[name='compensation']:checked").val() },
 			dataType: "json"	
 		}).done(function(t) {
 			var chartData = [];
@@ -34,6 +41,91 @@ function loadVisualization(init) {
 	else {		
 		geochart.draw(mxdata, options);
 	}
+}
+
+function loadStates() {
+	var lstate;
+	$("#stateSelector").empty();
+	switch ($('#country option:selected').val()) {
+		case 'US':
+			lstate = new Array(
+				'Alabama'
+				, 'Alaska'
+				, 'Arizona'
+				, 'Arkansas'
+				, 'California'
+				, 'Colorado'
+				, 'Connecticut'
+				, 'Delaware'
+				, 'District of Columbia'
+				, 'Florida'
+				, 'Georgia'
+				, 'Hawaii'
+				, 'Idaho'
+				, 'Illinois'
+				, 'Indiana'
+				, 'Iowa'
+				, 'Kansas'
+				, 'Kentucky'
+				, 'Louisiana'
+				, 'Maine'
+				, 'Maryland'
+				, 'Massachusetts'
+				, 'Michigan'
+				, 'Minnesota'
+				, 'Mississippi'
+				, 'Missouri'
+				, 'Montana'
+				, 'Nebraska'
+				, 'Nevada'
+				, 'New Hampshire'
+				, 'New Jersey'
+				, 'New Mexico'
+				, 'New York'
+				, 'North Carolina'
+				, 'North Dakota'
+				, 'Ohio'
+				, 'Oklahoma'
+				, 'Oregon'
+				, 'Pennsylvania'
+				, 'Rhode Island'
+				, 'Sourh Carolina'
+				, 'South Dakota'
+				, 'Tennessee'
+				, 'Texas'
+				, 'Utah'
+				, 'Vermont'
+				, 'Virginia'
+				, 'Washington'
+				, 'Washington Dc'
+				, 'West Virginia'
+				, 'Wisconsin'
+				, 'Wyoming');
+		break;
+		case 'CA': {
+			lstate = new Array('Alberta'
+				, 'British Columbia'
+				, 'Manitoba'
+				, 'New Brunswick'
+				, 'Newfoundland and Labrador'
+				, 'Nova Scotia'
+				, 'Ontario'
+				, 'Quebec'
+				, 'Saskatchewan');
+		}
+		break;
+	}
+	$("#stateSelector")
+		.append($("<option></option>")
+			.attr("value", 0)
+			.attr("selected", "selected")
+			.text("Select All"));
+	$.each(lstate, function(k, v) {
+		$("#stateSelector")
+			.append($("<option></option>")
+				.attr("value", v)
+				.text(v));
+	});
 }
 
 function regionClicked(e) {
