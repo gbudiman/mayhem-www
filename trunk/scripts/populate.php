@@ -7,7 +7,7 @@
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	if (!$db) die ('Database offline. Please check back later...');
 
-	$canadaStates = array("Alberta"
+	/*$canadaStates = array("Alberta"
 					, "British Columbia"
 					, "Manitoba"
 					, "Newfoundland and Labrador"
@@ -19,7 +19,7 @@
 					, "Prince Edward Island"
 					, "Quebec"
 					, "Saskatchewan"
-					, "Yukon Territory");
+					, "Yukon Territory");*/
 
 	$debugResponse = '';
 	$sql = "SELECT MAX(Runtime) AS Runtime FROM Caster";
@@ -40,6 +40,15 @@
 		$nudityPlaceholder = '?';
 		$nudityURL = $_POST['nudity'];
 	}
+
+	// Prepare SQL statement
+	// Order:
+	// - Seeking
+	// - Nudity
+	// - Runtime
+	// - Compensation
+	// - Country
+	// - State[]
 	$query = "SELECT
 					Caster.Town AS Town
 					, Caster.State AS State
@@ -49,30 +58,30 @@
 					AND Seek.Runtime = $date\n";
 	$query .= "	AND Caster.Nudity IN ($nudityPlaceholder)			
 				AND Caster.Runtime = $date\n";
-	if (!in_array("0", $_POST['states'])) {
-		$query .= "AND Caster.State IN ($statePlaceholder)\n";
-	}
-	else {
-		$query .= "AND Caster.State NOT IN (" ."'" .implode("','", $canadaStates) ."')";
-	}
 	if ($_POST['compensation'] !== '0') {
-		$query .= "AND Caster.Compensation = ? \n";
+		$query .= " AND Caster.Compensation = ? \n";
+	}
+	$query .= " AND Caster.Country IN ? \n";
+	if (!in_array("0", $_POST['states'])) {
+		$query .= " AND Caster.State IN ($statePlaceholder)\n";
 	}
 	$query .= " GROUP BY Caster.Town, Caster.State
 				ORDER BY 3 DESC";
 
+	// Load values to prepared statement
 	$executeArray = array($_POST['seeking']);
 	foreach ($nudityValues as $n) {
 		array_push($executeArray, $n);
 	}
 
+	if ($_POST['compensation'] !== '0') {
+		array_push($executeArray, $_POST['compensation']);
+	}
+	array_push($_POST['country']);
 	if (!in_array("0", $_POST['states'])) {
 		foreach ($_POST['states'] as $s) {
 			array_push($executeArray, $s);
 		}
-	}
-	if ($_POST['compensation'] !== '0') {
-		array_push($executeArray, $_POST['compensation']);
 	}
 	
 	//echo $date;
@@ -83,6 +92,7 @@
 					, "UserAgent" => $_SERVER['HTTP_USER_AGENT']
 					, "IPAddress" => $_SERVER['REMOTE_ADDR']
 					, "Seeking" => $_POST['seeking']
+					, "Country" => $_POST['country']
 					, "States" => ($_POST['states'] === '0' ? '0' : implode(',', $_POST['states']))
 					, "Nudity" => $_POST['nudity']
 					, "Compensation" => ($_POST['compensation'] === '0' ? '0' : $_POST['compensation']));
@@ -105,9 +115,9 @@
 				.'fm_action=Search'
 				.'&search_type=casting for'
 				.'&m_search_type[]=' .$_POST['seeking']
-				.'&cc_country=US'
+				.'&cc_country=' .array_search($row['Country'], $countryDict)
 				.'&cc_state=' .array_search($row['State'], $stateDict)
-				.'&cc_city=' .array_search($row['Town'], $townDict[$row['State']])
+				.'&cc_city=' .array_search($row['Town'], $townDict[$row['Country'][$row['State']]])
 				.'&search_mile_range=0.05'
 				.'&fm_button=+'
 				.'&search_start_date='
