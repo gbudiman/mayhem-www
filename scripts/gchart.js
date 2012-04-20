@@ -108,10 +108,13 @@ function loadStates() {
 				, 'Manitoba'
 				, 'New Brunswick'
 				, 'Newfoundland and Labrador'
+				, 'Northwest Territories'
 				, 'Nova Scotia'
 				, 'Ontario'
+				, 'Prince Edward Island'
 				, 'Quebec'
-				, 'Saskatchewan');
+				, 'Saskatchewan'
+				, 'Yukon');
 		}
 		break;
 	}
