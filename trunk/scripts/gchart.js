@@ -89,7 +89,7 @@ function loadStates() {
 				, 'Oregon'
 				, 'Pennsylvania'
 				, 'Rhode Island'
-				, 'Sourh Carolina'
+				, 'South Carolina'
 				, 'South Dakota'
 				, 'Tennessee'
 				, 'Texas'
