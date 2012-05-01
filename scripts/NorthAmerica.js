@@ -402,6 +402,14 @@ function NorthAmerica() {
 
 	var rsrGroups = [group_a,Canada,CABC,CANL,CANS,CANT,CANU,CAQC,USA,USAK,USCA,USHI,USMA,USMI,USVA];
 	
+	rsr.circle(500,500,40);
+	CABC.mouseover(function() {
+		alert('uh');
+		this.toFront();
+		this.animate({
+			scale: 1.5
+		}, 200)
+	});
 	//var map, paper, pageWidth=800;
 	//paper = new ScaleRaphael('rsr', 800, 800);
 	//map = Raphael('rsr', '1730', '1730');
